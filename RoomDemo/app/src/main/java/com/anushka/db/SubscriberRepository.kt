@@ -5,7 +5,7 @@ class SubscriberRepository (private val dao : SubscriberDAO) {
     val subscriberDAO = dao.getAllSubscribers()
 
     suspend fun insert(subscriber: Subscriber) {
-        dao.insertSubscriber(subscriber#)
+        dao.insertSubscriber(subscriber)
     }
 
     suspend fun update(subscriber: Subscriber) {
