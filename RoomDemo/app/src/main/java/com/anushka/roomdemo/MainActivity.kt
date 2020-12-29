@@ -3,6 +3,7 @@ package com.anushka.roomdemo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.anushka.MyRecyclerViewAdapter
 import com.anushka.SubscriberViewModel
 import com.anushka.SubscriberViewModelFactory
+import com.anushka.db.Subscriber
 import com.anushka.db.SubscriberDatabase
 import com.anushka.db.SubscriberRepository
 import com.anushka.roomdemo.databinding.ActivityMainBinding
@@ -42,7 +44,12 @@ private lateinit var subscriberViewModel : SubscriberViewModel
     private fun displaySubscriberList() {
         subscriberViewModel.subscribers.observe(this, Observer {
             Log.i("MYTAG",it.toString())
-            binding.subscriberRecyclerView.adapter = MyRecyclerViewAdapter(it)
+            binding.subscriberRecyclerView.adapter = MyRecyclerViewAdapter(it,{selectedItem:Subscriber ->listItemClicked(selectedItem)})
         })
+    }
+
+    private fun listItemClicked(subscriber : Subscriber) {
+        Toast.makeText(this,"selected name is ${subscriber}",Toast.LENGTH_LONG).show()
+        subscriberViewModel.initUpdateAndDelete(subscriber)
     }
 }
