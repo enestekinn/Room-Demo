@@ -15,8 +15,9 @@ class SubscriberRepository (private val dao : SubscriberDAO) {
     suspend fun delete(subscriber: Subscriber) {
         dao.deleteSubscriber(subscriber)
 
-        suspend  fun deleteAll() {
-            dao.deleteAll()
-        }
+
+    }
+    suspend  fun deleteAll() {
+        dao.deleteAll()
     }
 }
