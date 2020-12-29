@@ -31,6 +31,11 @@ private lateinit var subscriberViewModel : SubscriberViewModel
         displaySubscriberList()
 
         initRecyclerView()
+        subscriberViewModel.message.observe(this,Observer {
+            it.getContentIfNotHandled()?.let {
+                Toast.makeText(this,it,Toast.LENGTH_LONG).show()
+            }
+        })
 
 
     }
@@ -49,7 +54,7 @@ private lateinit var subscriberViewModel : SubscriberViewModel
     }
 
     private fun listItemClicked(subscriber : Subscriber) {
-        Toast.makeText(this,"selected name is ${subscriber}",Toast.LENGTH_LONG).show()
+        //Toast.makeText(this,"selected name is ${subscriber}",Toast.LENGTH_LONG).show()
         subscriberViewModel.initUpdateAndDelete(subscriber)
     }
 }

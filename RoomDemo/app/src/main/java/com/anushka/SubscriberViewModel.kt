@@ -2,6 +2,7 @@ package com.anushka
 
 import androidx.databinding.Bindable
 import androidx.databinding.Observable
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -28,6 +29,11 @@ class SubscriberViewModel (
     val saveOrUpdateButtonText = MutableLiveData<String>()
 
     val clearAllOrDeleteButtonText = MutableLiveData<String>()
+
+    private val statusMessage = MutableLiveData<Event<String>>()
+
+    val message : LiveData<Event<String>>
+    get() =  statusMessage
 
     init {
         saveOrUpdateButtonText.value = "Save"
@@ -63,6 +69,7 @@ if (isUpdateOrDelete) {
     fun insert(subscriber : Subscriber) : Job =
         viewModelScope.launch {
             repository.insert(subscriber)
+            statusMessage.value = Event("Subscriber Inserted Successfully")
         }
 
     fun update(subscriber : Subscriber) : Job =
@@ -73,6 +80,8 @@ if (isUpdateOrDelete) {
             isUpdateOrDelete = false
             saveOrUpdateButtonText.value  ="Save"
             clearAllOrDeleteButtonText.value = "Clear All"
+            statusMessage.value = Event("Subscriber Updated Successfully")
+
         }
 
     fun delete(subscriber : Subscriber) : Job =
@@ -83,10 +92,15 @@ if (isUpdateOrDelete) {
             isUpdateOrDelete = false
             saveOrUpdateButtonText.value  ="Save"
             clearAllOrDeleteButtonText.value = "Clear All"
+
+            statusMessage.value = Event("Subscriber Deleted Successfully")
+
         }
     fun clearAll() : Job =
         viewModelScope.launch {
             repository.deleteAll()
+            statusMessage.value = Event("All Subscriber Cleared Successfully")
+
         }
 
     fun initUpdateAndDelete(subscriber : Subscriber) {
